@@ -224,14 +224,16 @@ function SelectedLevelsCard({
 
   return (
     <div className='bg-[var(--card-color)] rounded-lg p-4'>
-      <div className='flex flex-row items-start gap-2'>
-        <CheckCircle2
-          className='text-[var(--secondary-color)] shrink-0 mt-0.5'
-          size={20}
-        />
-        <span className='text-sm whitespace-nowrap'>
-          {dojoType === 'kana' ? 'Selected Groups:' : 'Selected Levels:'}
-        </span>
+      <div className='flex flex-col gap-2'>
+        <div className='flex flex-row items-center gap-2'>
+          <CheckCircle2
+            className='text-[var(--secondary-color)] shrink-0'
+            size={20}
+          />
+          <span className='text-sm'>
+            {dojoType === 'kana' ? 'Selected Groups:' : 'Selected Levels:'}
+          </span>
+        </div>
         <span className='text-[var(--secondary-color)] text-sm break-words md:hidden'>
           {formatCompact()}
         </span>
