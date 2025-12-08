@@ -132,7 +132,7 @@ const SelectionStatusBar = () => {
           }}
           className={clsx(
             'fixed z-40',
-            'bg-[var(--card-color)]',
+            'bg-[var(--background-color)]',
             'border-b-2 border-[var(--border-color)] w-full '
           )}
         >
@@ -162,7 +162,7 @@ const SelectionStatusBar = () => {
               // colorScheme='main'
               borderColorScheme='main'
               borderRadius='2xl'
-              borderBottomThickness={6}
+              borderBottomThickness={8}
               className='py-2 px-4 bg-[var(--main-color)]/80 w-1/5'
               onClick={handleClear}
               aria-label='Clear selected levels'
