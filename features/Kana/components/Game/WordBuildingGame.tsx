@@ -40,7 +40,7 @@ const isKatakana = (char: string): boolean => {
 
 // Tile styles shared between active and blank tiles
 const tileBaseStyles =
-  'relative flex items-center justify-center rounded-3xl px-6 sm:px-8 py-3 text-2xl  sm:text-3xl border-b-10';
+  'relative flex items-center justify-center rounded-3xl px-6 sm:px-8 py-3 text-2xl  sm:text-3xl border-b-10 transition-all duration-150';
 
 interface TileProps {
   id: string;
@@ -334,6 +334,7 @@ const WordBuildingGame = ({
   const handleTileClick = useCallback(
     (char: string) => {
       if (isChecking) return;
+      playClick();
 
       if (placedTiles.includes(char)) {
         setPlacedTiles(prev => prev.filter(c => c !== char));
@@ -341,7 +342,7 @@ const WordBuildingGame = ({
         setPlacedTiles(prev => [...prev, char]);
       }
     },
-    [isChecking, placedTiles]
+    [isChecking, placedTiles, playClick]
   );
 
   const handleClearPlaced = useCallback(() => {
@@ -445,13 +446,13 @@ const WordBuildingGame = ({
 
       <Stars />
 
-      {/* Bottom Bar */}
+      {/* Bottom Bar - min-h-20 prevents layout jank when buttons are pressed */}
       <div
         className={clsx(
           'right-0 left-0 w-full',
           'border-t-2 border-[var(--border-color)] bg-[var(--card-color)]',
-          'absolute bottom-0 z-10 px-2 py-2 sm:py-3 md:bottom-6 md:px-12 md:py-4',
-          'flex flex-row items-center justify-center'
+          'absolute bottom-0 z-10 px-2 py-2 sm:py-3 md:bottom-6 md:px-12 md:pt-2 md:pb-4',
+          'flex min-h-20 flex-row items-center justify-center'
         )}
       >
         {/* Left Container: 50% width, aligned right */}
@@ -478,7 +479,7 @@ const WordBuildingGame = ({
               >
                 {bottomBarState === 'correct'
                   ? 'Nicely done!'
-                  : 'Wrong! Correct solution:'}
+                  : 'Wrong! Correct answer:'}
               </span>
               <span className='text-sm text-[var(--main-color)] sm:text-lg'>
                 {wordData.answerChars.join('')}
@@ -487,38 +488,46 @@ const WordBuildingGame = ({
           </div>
         </div>
 
-        {/* Right Container: 50% width, aligned left */}
-        <div className='flex w-1/2 flex-row items-center justify-center gap-3'>
-          <ActionButton
-            ref={buttonRef}
-            borderBottomThickness={12}
-            borderRadius='3xl'
-            className={clsx(
-              'w-auto px-6 py-2.5 text-lg font-medium transition-all duration-200 sm:px-12 sm:py-3 sm:text-xl',
-              !canCheck && !showContinue && 'cursor-not-allowed opacity-60'
-            )}
-            onClick={showContinue ? handleContinue : handleCheck}
-            disabled={!canCheck && !showContinue}
-          >
-            <span>{showContinue ? 'continue' : 'check'}</span>
-          </ActionButton>
-
-          {!showContinue && (
+        {/* Right Container: 50% width */}
+        <div className='flex w-1/2 flex-row items-end justify-center gap-3'>
+          {/* Fixed-height wrapper prevents layout shift when button is pressed */}
+          <div className='flex h-[68px] items-end sm:h-[72px]'>
             <ActionButton
+              ref={buttonRef}
               borderBottomThickness={12}
               borderRadius='3xl'
-              colorScheme='secondary'
-              borderColorScheme='secondary'
               className={clsx(
-                'w-auto px-4 py-2.5 transition-all duration-200 sm:px-6 sm:py-3',
-                !canCheck && 'cursor-not-allowed opacity-60'
+                'w-auto px-6 py-2.5 text-lg font-medium transition-all duration-150 sm:px-12 sm:py-3 sm:text-xl',
+                !canCheck && !showContinue && 'cursor-default opacity-60'
               )}
-              onClick={handleClearPlaced}
-              disabled={!canCheck}
-              aria-label='Clear all tiles'
+              onClick={showContinue ? handleContinue : handleCheck}
             >
-              <Trash2 className='sm:h-6 sm:w-6' size={20} />
+              <span>{showContinue ? 'continue' : 'check'}</span>
+              {showContinue ? (
+                <CircleArrowRight className='h-8 w-8' />
+              ) : (
+                <CircleCheck className='h-8 w-8' />
+              )}
             </ActionButton>
+          </div>
+
+          {!showContinue && (
+            <div className='flex h-[68px] items-end sm:h-[72px]'>
+              <ActionButton
+                borderBottomThickness={12}
+                borderRadius='3xl'
+                colorScheme='secondary'
+                borderColorScheme='secondary'
+                className={clsx(
+                  'w-auto px-4 py-2.5 transition-all duration-150 sm:px-6 sm:py-3',
+                  !canCheck && 'cursor-default opacity-60'
+                )}
+                onClick={handleClearPlaced}
+                aria-label='Clear all tiles'
+              >
+                <Trash2 className='h-8 w-8 fill-current' />
+              </ActionButton>
+            </div>
           )}
         </div>
       </div>
