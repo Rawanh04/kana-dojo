@@ -399,7 +399,9 @@
     "mainColor": "oklch(82.0% 0.155 85.0 / 1)",
     "secondaryColor": "oklch(65.0% 0.180 30.0 / 1)",
     "issued": true,
-    "completed": false
+    "completed": true,
+    "completedBy": "SachinB0101",
+    "completedPR": 4822
   },
   {
     "id": "vaporwave-shrine",
