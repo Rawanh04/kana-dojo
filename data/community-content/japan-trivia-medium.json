@@ -158,5 +158,11 @@
     "difficulty": "medium",
     "answers": ["Sukiyaki", "Okonomiyaki", "Takoyaki", "Chankonabe"],
     "correctIndex": 0
+  },
+  {
+    "question": "Which of these is a Japanese traditional storytelling art?",
+    "difficulty": "medium",
+    "answers": ["Rakugo", "Kabuki", "Noh", "Ikebana"],
+    "correctIndex": 0
   }
 ]
